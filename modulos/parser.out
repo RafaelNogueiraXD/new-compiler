@@ -1,0 +1,394 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    DIVIDE
+    ENQUANTO
+    MENOS
+    MULTIPLICA
+    PARA
+    PEGA
+    RETORNA
+    SE
+    SE_NAO
+    SOMA
+    TENTA
+    VIRGULA
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> declaracoes
+Rule 2     declaracoes -> declaracao declaracoes
+Rule 3     declaracoes -> declaracao
+Rule 4     declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
+Rule 5     declaracao -> comando
+Rule 6     tipo -> INTEIRO
+Rule 7     tipo -> FLUTUANTE_TIPO
+Rule 8     tipo -> TEXTO_TIPO
+Rule 9     expressao -> NUMERO
+Rule 10    expressao -> FLUTUANTE
+Rule 11    expressao -> TEXTO
+Rule 12    expressao -> IDENTIFICADOR
+Rule 13    comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
+Rule 14    comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+Terminals, with rules where they appear
+
+ABRE_CHAVE           : 14
+ABRE_PARENTESE       : 13 14
+ATRIBUIR             : 4
+DIVIDE               : 
+DOIS_PONTOS          : 14
+ENQUANTO             : 
+FECHA_CHAVE          : 14
+FECHA_PARENTESE      : 13 14
+FLUTUANTE            : 10
+FLUTUANTE_TIPO       : 7
+FUNCAO               : 14
+IDENTIFICADOR        : 4 12 14
+IMPRIME              : 13
+INTEIRO              : 6
+MENOS                : 
+MULTIPLICA           : 
+NUMERO               : 9
+PARA                 : 
+PEGA                 : 
+PONTO_E_VIRGULA      : 4 13
+RETORNA              : 
+SE                   : 
+SE_NAO               : 
+SOMA                 : 
+TENTA                : 
+TEXTO                : 11
+TEXTO_TIPO           : 8
+VIRGULA              : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+comando              : 5
+declaracao           : 2 3
+declaracoes          : 1 2 14
+expressao            : 4 13
+programa             : 0
+tipo                 : 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . declaracoes
+    (2) declaracoes -> . declaracao declaracoes
+    (3) declaracoes -> . declaracao
+    (4) declaracao -> . tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
+    (5) declaracao -> . comando
+    (6) tipo -> . INTEIRO
+    (7) tipo -> . FLUTUANTE_TIPO
+    (8) tipo -> . TEXTO_TIPO
+    (13) comando -> . IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
+    (14) comando -> . FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    INTEIRO         shift and go to state 6
+    FLUTUANTE_TIPO  shift and go to state 7
+    TEXTO_TIPO      shift and go to state 8
+    IMPRIME         shift and go to state 9
+    FUNCAO          shift and go to state 10
+
+    programa                       shift and go to state 1
+    declaracoes                    shift and go to state 2
+    declaracao                     shift and go to state 3
+    tipo                           shift and go to state 4
+    comando                        shift and go to state 5
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> declaracoes .
+
+    $end            reduce using rule 1 (programa -> declaracoes .)
+
+
+state 3
+
+    (2) declaracoes -> declaracao . declaracoes
+    (3) declaracoes -> declaracao .
+    (2) declaracoes -> . declaracao declaracoes
+    (3) declaracoes -> . declaracao
+    (4) declaracao -> . tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
+    (5) declaracao -> . comando
+    (6) tipo -> . INTEIRO
+    (7) tipo -> . FLUTUANTE_TIPO
+    (8) tipo -> . TEXTO_TIPO
+    (13) comando -> . IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
+    (14) comando -> . FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    $end            reduce using rule 3 (declaracoes -> declaracao .)
+    FECHA_CHAVE     reduce using rule 3 (declaracoes -> declaracao .)
+    INTEIRO         shift and go to state 6
+    FLUTUANTE_TIPO  shift and go to state 7
+    TEXTO_TIPO      shift and go to state 8
+    IMPRIME         shift and go to state 9
+    FUNCAO          shift and go to state 10
+
+    declaracao                     shift and go to state 3
+    declaracoes                    shift and go to state 11
+    tipo                           shift and go to state 4
+    comando                        shift and go to state 5
+
+state 4
+
+    (4) declaracao -> tipo . IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
+
+    IDENTIFICADOR   shift and go to state 12
+
+
+state 5
+
+    (5) declaracao -> comando .
+
+    INTEIRO         reduce using rule 5 (declaracao -> comando .)
+    FLUTUANTE_TIPO  reduce using rule 5 (declaracao -> comando .)
+    TEXTO_TIPO      reduce using rule 5 (declaracao -> comando .)
+    IMPRIME         reduce using rule 5 (declaracao -> comando .)
+    FUNCAO          reduce using rule 5 (declaracao -> comando .)
+    $end            reduce using rule 5 (declaracao -> comando .)
+    FECHA_CHAVE     reduce using rule 5 (declaracao -> comando .)
+
+
+state 6
+
+    (6) tipo -> INTEIRO .
+
+    IDENTIFICADOR   reduce using rule 6 (tipo -> INTEIRO .)
+
+
+state 7
+
+    (7) tipo -> FLUTUANTE_TIPO .
+
+    IDENTIFICADOR   reduce using rule 7 (tipo -> FLUTUANTE_TIPO .)
+
+
+state 8
+
+    (8) tipo -> TEXTO_TIPO .
+
+    IDENTIFICADOR   reduce using rule 8 (tipo -> TEXTO_TIPO .)
+
+
+state 9
+
+    (13) comando -> IMPRIME . ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
+
+    ABRE_PARENTESE  shift and go to state 13
+
+
+state 10
+
+    (14) comando -> FUNCAO . IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    IDENTIFICADOR   shift and go to state 14
+
+
+state 11
+
+    (2) declaracoes -> declaracao declaracoes .
+
+    $end            reduce using rule 2 (declaracoes -> declaracao declaracoes .)
+    FECHA_CHAVE     reduce using rule 2 (declaracoes -> declaracao declaracoes .)
+
+
+state 12
+
+    (4) declaracao -> tipo IDENTIFICADOR . ATRIBUIR expressao PONTO_E_VIRGULA
+
+    ATRIBUIR        shift and go to state 15
+
+
+state 13
+
+    (13) comando -> IMPRIME ABRE_PARENTESE . expressao FECHA_PARENTESE PONTO_E_VIRGULA
+    (9) expressao -> . NUMERO
+    (10) expressao -> . FLUTUANTE
+    (11) expressao -> . TEXTO
+    (12) expressao -> . IDENTIFICADOR
+
+    NUMERO          shift and go to state 17
+    FLUTUANTE       shift and go to state 18
+    TEXTO           shift and go to state 19
+    IDENTIFICADOR   shift and go to state 20
+
+    expressao                      shift and go to state 16
+
+state 14
+
+    (14) comando -> FUNCAO IDENTIFICADOR . ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    ABRE_PARENTESE  shift and go to state 21
+
+
+state 15
+
+    (4) declaracao -> tipo IDENTIFICADOR ATRIBUIR . expressao PONTO_E_VIRGULA
+    (9) expressao -> . NUMERO
+    (10) expressao -> . FLUTUANTE
+    (11) expressao -> . TEXTO
+    (12) expressao -> . IDENTIFICADOR
+
+    NUMERO          shift and go to state 17
+    FLUTUANTE       shift and go to state 18
+    TEXTO           shift and go to state 19
+    IDENTIFICADOR   shift and go to state 20
+
+    expressao                      shift and go to state 22
+
+state 16
+
+    (13) comando -> IMPRIME ABRE_PARENTESE expressao . FECHA_PARENTESE PONTO_E_VIRGULA
+
+    FECHA_PARENTESE shift and go to state 23
+
+
+state 17
+
+    (9) expressao -> NUMERO .
+
+    FECHA_PARENTESE reduce using rule 9 (expressao -> NUMERO .)
+    PONTO_E_VIRGULA reduce using rule 9 (expressao -> NUMERO .)
+
+
+state 18
+
+    (10) expressao -> FLUTUANTE .
+
+    FECHA_PARENTESE reduce using rule 10 (expressao -> FLUTUANTE .)
+    PONTO_E_VIRGULA reduce using rule 10 (expressao -> FLUTUANTE .)
+
+
+state 19
+
+    (11) expressao -> TEXTO .
+
+    FECHA_PARENTESE reduce using rule 11 (expressao -> TEXTO .)
+    PONTO_E_VIRGULA reduce using rule 11 (expressao -> TEXTO .)
+
+
+state 20
+
+    (12) expressao -> IDENTIFICADOR .
+
+    FECHA_PARENTESE reduce using rule 12 (expressao -> IDENTIFICADOR .)
+    PONTO_E_VIRGULA reduce using rule 12 (expressao -> IDENTIFICADOR .)
+
+
+state 21
+
+    (14) comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE . FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    FECHA_PARENTESE shift and go to state 24
+
+
+state 22
+
+    (4) declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao . PONTO_E_VIRGULA
+
+    PONTO_E_VIRGULA shift and go to state 25
+
+
+state 23
+
+    (13) comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE . PONTO_E_VIRGULA
+
+    PONTO_E_VIRGULA shift and go to state 26
+
+
+state 24
+
+    (14) comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE . DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    DOIS_PONTOS     shift and go to state 27
+
+
+state 25
+
+    (4) declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .
+
+    INTEIRO         reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+    FLUTUANTE_TIPO  reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+    TEXTO_TIPO      reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+    IMPRIME         reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+    FUNCAO          reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+    $end            reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+    FECHA_CHAVE     reduce using rule 4 (declaracao -> tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA .)
+
+
+state 26
+
+    (13) comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .
+
+    INTEIRO         reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+    FLUTUANTE_TIPO  reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+    TEXTO_TIPO      reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+    IMPRIME         reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+    FUNCAO          reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+    $end            reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+    FECHA_CHAVE     reduce using rule 13 (comando -> IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA .)
+
+
+state 27
+
+    (14) comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS . ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    ABRE_CHAVE      shift and go to state 28
+
+
+state 28
+
+    (14) comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE . declaracoes FECHA_CHAVE
+    (2) declaracoes -> . declaracao declaracoes
+    (3) declaracoes -> . declaracao
+    (4) declaracao -> . tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
+    (5) declaracao -> . comando
+    (6) tipo -> . INTEIRO
+    (7) tipo -> . FLUTUANTE_TIPO
+    (8) tipo -> . TEXTO_TIPO
+    (13) comando -> . IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
+    (14) comando -> . FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+
+    INTEIRO         shift and go to state 6
+    FLUTUANTE_TIPO  shift and go to state 7
+    TEXTO_TIPO      shift and go to state 8
+    IMPRIME         shift and go to state 9
+    FUNCAO          shift and go to state 10
+
+    declaracoes                    shift and go to state 29
+    declaracao                     shift and go to state 3
+    tipo                           shift and go to state 4
+    comando                        shift and go to state 5
+
+state 29
+
+    (14) comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes . FECHA_CHAVE
+
+    FECHA_CHAVE     shift and go to state 30
+
+
+state 30
+
+    (14) comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .
+
+    INTEIRO         reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+    FLUTUANTE_TIPO  reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+    TEXTO_TIPO      reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+    IMPRIME         reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+    FUNCAO          reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+    $end            reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+    FECHA_CHAVE     reduce using rule 14 (comando -> FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE .)
+

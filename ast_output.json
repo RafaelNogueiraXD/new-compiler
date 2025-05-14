@@ -1,0 +1,21 @@
+[
+  "programa",
+  [
+    [
+      "funcao",
+      "saudacao",
+      [
+        [
+          "declaracao_var",
+          "inteiro",
+          "variante",
+          10
+        ],
+        [
+          "imprime",
+          "hello world"
+        ]
+      ]
+    ]
+  ]
+]
