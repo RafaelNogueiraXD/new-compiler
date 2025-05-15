@@ -5,9 +5,21 @@ import json
 
 if __name__ == "__main__":
     codigo = """
-    funcao saudacao():{
+    funcao main():{
         inteiro variante = 10;
         imprime("hello world");
+        enquanto (variante < 10){
+            imprime("ola mundo");
+            variante = variante - 1;
+        } 
+        se (variante > 0) {
+            imprime("positivo");
+        } se_nao {
+            imprime("negativo ou zero");
+        }
+        inteiro numeros[5];
+        numeros[0] = 10;
+        imprime(numeros[0]);
     }
     """
 

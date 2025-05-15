@@ -8,7 +8,7 @@ digraph arvore {
 	2 -> 3
 	4 [label=funcao]
 	3 -> 4
-	5 [label=saudacao]
+	5 [label=main]
 	3 -> 5
 	6 [label=lista]
 	3 -> 6
@@ -28,4 +28,102 @@ digraph arvore {
 	12 -> 13
 	14 [label="hello world"]
 	12 -> 14
+	15 [label=lista]
+	6 -> 15
+	16 [label=enquanto]
+	15 -> 16
+	17 [label=lista]
+	15 -> 17
+	18 [label=relacional]
+	17 -> 18
+	19 [label="<"]
+	17 -> 19
+	20 [label=variante]
+	17 -> 20
+	21 [label=10]
+	17 -> 21
+	22 [label=lista]
+	15 -> 22
+	23 [label=lista]
+	22 -> 23
+	24 [label=imprime]
+	23 -> 24
+	25 [label="ola mundo"]
+	23 -> 25
+	26 [label=lista]
+	22 -> 26
+	27 [label=atribuicao]
+	26 -> 27
+	28 [label=variante]
+	26 -> 28
+	29 [label=lista]
+	26 -> 29
+	30 [label=binop]
+	29 -> 30
+	31 [label="-"]
+	29 -> 31
+	32 [label=variante]
+	29 -> 32
+	33 [label=1]
+	29 -> 33
+	34 [label=lista]
+	6 -> 34
+	35 [label=se_senao]
+	34 -> 35
+	36 [label=lista]
+	34 -> 36
+	37 [label=relacional]
+	36 -> 37
+	38 [label=">"]
+	36 -> 38
+	39 [label=variante]
+	36 -> 39
+	40 [label=0]
+	36 -> 40
+	41 [label=lista]
+	34 -> 41
+	42 [label=lista]
+	41 -> 42
+	43 [label=imprime]
+	42 -> 43
+	44 [label=positivo]
+	42 -> 44
+	45 [label=lista]
+	34 -> 45
+	46 [label=lista]
+	45 -> 46
+	47 [label=imprime]
+	46 -> 47
+	48 [label="negativo ou zero"]
+	46 -> 48
+	49 [label=lista]
+	6 -> 49
+	50 [label=vetor_declaracao]
+	49 -> 50
+	51 [label=numeros]
+	49 -> 51
+	52 [label=5]
+	49 -> 52
+	53 [label=lista]
+	6 -> 53
+	54 [label=vetor_atribuicao]
+	53 -> 54
+	55 [label=numeros]
+	53 -> 55
+	56 [label=0]
+	53 -> 56
+	57 [label=10]
+	53 -> 57
+	58 [label=lista]
+	6 -> 58
+	59 [label=imprime]
+	58 -> 59
+	60 [label=lista]
+	58 -> 60
+	61 [label=vetor_acesso]
+	60 -> 61
+	62 [label=numeros]
+	60 -> 62
+	63 [label=0]
+	60 -> 63
 }

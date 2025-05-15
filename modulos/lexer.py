@@ -8,7 +8,10 @@ class Lexer:
         'SOMA', 'MENOS', 'MULTIPLICA', 'DIVIDE', 'ABRE_PARENTESE',
         'FECHA_PARENTESE', 'ABRE_CHAVE', 'FECHA_CHAVE', 'PONTO_E_VIRGULA',
         'DOIS_PONTOS', 'VIRGULA', 'SE', 'SE_NAO', 'ENQUANTO', 'PARA',
-        'RETORNA', 'IMPRIME', 'FUNCAO', 'TENTA', 'PEGA', 'INTEIRO', 'FLUTUANTE_TIPO', 'TEXTO_TIPO'
+        'RETORNA', 'IMPRIME', 'FUNCAO', 'TENTA', 'PEGA', 'INTEIRO', 'FLUTUANTE_TIPO', 'TEXTO_TIPO',
+        'MENOR', 'MAIOR', 'IGUAL', 'DIFERENTE', 'MENOR_IGUAL', 'MAIOR_IGUAL',
+        'ABRE_COLCHETE', 'FECHA_COLCHETE',
+        
     ]
 
     # Palavras reservadas
@@ -26,7 +29,8 @@ class Lexer:
         'flutuante': 'FLUTUANTE_TIPO',
         'texto': 'TEXTO_TIPO'
     }
-
+    t_ABRE_COLCHETE = r'\['
+    t_FECHA_COLCHETE = r'\]'
     # Tokens simples
     t_ignore = ' \t'
     t_SOMA = r'\+'
@@ -41,6 +45,13 @@ class Lexer:
     t_PONTO_E_VIRGULA = r';'
     t_DOIS_PONTOS = r':'
     t_VIRGULA = r','
+    
+    t_MENOR = r'<'
+    t_MAIOR = r'>'
+    t_IGUAL = r'=='
+    t_DIFERENTE = r'!='
+    t_MENOR_IGUAL = r'<='
+    t_MAIOR_IGUAL = r'>='
 
     def t_FLUTUANTE(self, t):
         r'\d+\.\d+'

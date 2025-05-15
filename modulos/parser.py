@@ -16,7 +16,7 @@ class Parser:
 
     def p_declaracoes(self, p):
         '''declaracoes : declaracao declaracoes
-                       | declaracao'''
+                       | declaracao '''
         if len(p) == 3:
             p[0] = [p[1]] + p[2]
         else:
@@ -24,9 +24,12 @@ class Parser:
 
     def p_declaracao(self, p):
         '''declaracao : tipo IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
-                      | comando'''
-        if len(p) == 6:
+                    | tipo IDENTIFICADOR ABRE_COLCHETE NUMERO FECHA_COLCHETE PONTO_E_VIRGULA
+                    | comando'''
+        if len(p) == 6 and p[2] != '[':
             p[0] = ('declaracao_var', p[1], p[2], p[4])
+        elif len(p) == 7:
+            p[0] = ('vetor_declaracao', p[2], p[4])
         else:
             p[0] = p[1]
 
@@ -42,14 +45,41 @@ class Parser:
                      | TEXTO
                      | IDENTIFICADOR'''
         p[0] = p[1]
+    def p_comandos(self, p):
+        '''comandos : comandos comando
+                    | comando'''
+        if len(p) == 3:
+            p[0] = p[1] + [p[2]]
+        else:
+            p[0] = [p[1]]    
+
 
     def p_comando(self, p):
-        '''comando : IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
-                   | FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE'''
-        if p[1] == 'imprime':
+        '''comando : IDENTIFICADOR ABRE_COLCHETE expressao FECHA_COLCHETE ATRIBUIR expressao PONTO_E_VIRGULA
+                | IDENTIFICADOR ATRIBUIR expressao PONTO_E_VIRGULA
+                | IMPRIME ABRE_PARENTESE expressao FECHA_PARENTESE PONTO_E_VIRGULA
+                | FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
+                | ENQUANTO ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE
+                | SE ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE
+                | SE ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE SE_NAO ABRE_CHAVE declaracoes FECHA_CHAVE'''
+
+        if len(p) == 8 and p[2] == '[':
+            # Atribuição em vetor
+            p[0] = ('vetor_atribuicao', p[1], p[3], p[6])
+        elif p[1] == 'imprime':
             p[0] = ('imprime', p[3])
-        else:
+        elif p[1] == 'funcao':
             p[0] = ('funcao', p[2], p[7])
+        elif p[1] == 'enquanto':
+            p[0] = ('enquanto', p[3], p[6])
+        elif p[1] == 'se':
+            if len(p) == 8:
+                p[0] = ('se', p[3], p[6])
+            else:
+                p[0] = ('se_senao', p[3], p[6], p[10])
+        else:
+            # Caso IDENTIFICADOR = expressao;
+            p[0] = ('atribuicao', p[1], p[3])
 
     def p_error(self, p):
         if p:
@@ -59,3 +89,35 @@ class Parser:
 
     def parse(self, code):
         return self.parser.parse(code, lexer=self.lexer.lexer)
+    
+        
+    def p_bloco(self, p):
+        '''bloco : ABRE_CHAVE comandos FECHA_CHAVE'''
+        p[0] = p[2]
+    
+    def p_expressao_relacional(self, p):
+        '''expressao : expressao MENOR expressao
+                    | expressao MAIOR expressao
+                    | expressao MENOR_IGUAL expressao
+                    | expressao MAIOR_IGUAL expressao
+                    | expressao IGUAL expressao
+                    | expressao DIFERENTE expressao'''
+        p[0] = ('relacional', p[2], p[1], p[3])
+
+        
+    def p_expressao_binaria(self, p):
+        '''expressao : expressao SOMA expressao
+                    | expressao MENOS expressao
+                    | expressao MULTIPLICA expressao
+                    | expressao DIVIDE expressao
+                    | expressao '>' expressao
+                    | expressao '<' expressao
+                    | expressao ATRIBUIR expressao'''
+        p[0] = ('binop', p[2], p[1], p[3])
+    
+
+
+    
+    def p_expressao_vetor(self, p):
+        '''expressao : IDENTIFICADOR ABRE_COLCHETE expressao FECHA_COLCHETE'''
+        p[0] = ('vetor_acesso', p[1], p[3])

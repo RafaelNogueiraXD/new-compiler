@@ -3,7 +3,7 @@
   [
     [
       "funcao",
-      "saudacao",
+      "main",
       [
         [
           "declaracao_var",
@@ -14,6 +14,71 @@
         [
           "imprime",
           "hello world"
+        ],
+        [
+          "enquanto",
+          [
+            "relacional",
+            "<",
+            "variante",
+            10
+          ],
+          [
+            [
+              "imprime",
+              "ola mundo"
+            ],
+            [
+              "atribuicao",
+              "variante",
+              [
+                "binop",
+                "-",
+                "variante",
+                1
+              ]
+            ]
+          ]
+        ],
+        [
+          "se_senao",
+          [
+            "relacional",
+            ">",
+            "variante",
+            0
+          ],
+          [
+            [
+              "imprime",
+              "positivo"
+            ]
+          ],
+          [
+            [
+              "imprime",
+              "negativo ou zero"
+            ]
+          ]
+        ],
+        [
+          "vetor_declaracao",
+          "numeros",
+          5
+        ],
+        [
+          "vetor_atribuicao",
+          "numeros",
+          0,
+          10
+        ],
+        [
+          "imprime",
+          [
+            "vetor_acesso",
+            "numeros",
+            0
+          ]
         ]
       ]
     ]
