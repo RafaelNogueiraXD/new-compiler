@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 from modulos.lexer import Lexer
+from modulos.semantico import AnalisadorSemantico
 
 class Parser:
     tokens = Lexer.tokens
@@ -7,6 +8,7 @@ class Parser:
     def __init__(self):
         self.lexer = Lexer()
         self.lexer.build()
+        self.analisador_semantico = AnalisadorSemantico()
         self.parser = yacc.yacc(module=self)
 
     # --- Regras de gramática ---
@@ -27,8 +29,10 @@ class Parser:
                     | tipo IDENTIFICADOR ABRE_COLCHETE NUMERO FECHA_COLCHETE PONTO_E_VIRGULA
                     | comando'''
         if len(p) == 6 and p[2] != '[':
+            self.analisador_semantico.tabela.declarar_variavel(p[2], p[1])
             p[0] = ('declaracao_var', p[1], p[2], p[4])
         elif len(p) == 7:
+            self.analisador_semantico.tabela.declarar_vetor(p[2], 'inteiro', p[4])
             p[0] = ('vetor_declaracao', p[2], p[4])
         else:
             p[0] = p[1]
@@ -65,6 +69,7 @@ class Parser:
 
         if len(p) == 8 and p[2] == '[':
             # Atribuição em vetor
+            self.analisador_semantico.verificar_atribuicao(p[1], p[3])
             p[0] = ('vetor_atribuicao', p[1], p[3], p[6])
         elif p[1] == 'imprime':
             p[0] = ('imprime', p[3])
@@ -79,6 +84,7 @@ class Parser:
                 p[0] = ('se_senao', p[3], p[6], p[10])
         else:
             # Caso IDENTIFICADOR = expressao;
+            self.analisador_semantico.verificar_atribuicao(p[1], p[3])
             p[0] = ('atribuicao', p[1], p[3])
 
     def p_error(self, p):
@@ -120,4 +126,5 @@ class Parser:
     
     def p_expressao_vetor(self, p):
         '''expressao : IDENTIFICADOR ABRE_COLCHETE expressao FECHA_COLCHETE'''
+        p[0] = ('vetor_acesso', p[1], p[3])
         p[0] = ('vetor_acesso', p[1], p[3])
