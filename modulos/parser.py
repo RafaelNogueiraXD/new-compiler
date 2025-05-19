@@ -32,7 +32,7 @@ class Parser:
             self.analisador_semantico.tabela.declarar_variavel(p[2], p[1])
             p[0] = ('declaracao_var', p[1], p[2], p[4])
         elif len(p) == 7:
-            self.analisador_semantico.tabela.declarar_vetor(p[2], 'inteiro', p[4])
+            self.analisador_semantico.tabela.declarar_vetor(p[2], p[1], p[4])
             p[0] = ('vetor_declaracao', p[2], p[4])
         else:
             p[0] = p[1]
@@ -94,8 +94,13 @@ class Parser:
             print("Erro de sintaxe: fim de arquivo inesperado")
 
     def parse(self, code):
-        return self.parser.parse(code, lexer=self.lexer.lexer)
-    
+        # return self.parser.parse(code, lexer=self.lexer.lexer)
+        resultado = self.parser.parse(code, lexer=self.lexer.lexer)
+        if self.analisador_semantico.tabela.errors:
+            for erro in self.analisador_semantico.tabela.errors:
+                print(f"[ERRO SEMÂNTICO] {erro}")
+        self.analisador_semantico.tabela.print_symbol_table()
+        return resultado
         
     def p_bloco(self, p):
         '''bloco : ABRE_CHAVE comandos FECHA_CHAVE'''

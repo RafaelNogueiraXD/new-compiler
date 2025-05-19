@@ -2,6 +2,7 @@ from modulos.tabelaSimbolos import TabelaDeSimbolos
 class AnalisadorSemantico:
     def __init__(self):
         self.tabela = TabelaDeSimbolos()
+       
 
     def verificar_atribuicao(self, nome, expressao):
         simbolo = self.tabela.obter_simbolo(nome)
@@ -9,7 +10,8 @@ class AnalisadorSemantico:
         tipo_expressao = self.inferir_tipo(expressao)
 
         if tipo_variavel != tipo_expressao:
-            raise Exception(f"Erro semântico: atribuição incompatível '{tipo_variavel}' <- '{tipo_expressao}'")
+            self.tabela.errors.append(f"Erro semântico: atribuição incompatível '{tipo_variavel}' <- '{tipo_expressao}'")
+            # raise Exception(f"Erro semântico: atribuição incompatível '{tipo_variavel}' <- '{tipo_expressao}'")
 
     def inferir_tipo(self, expressao):
         if isinstance(expressao, tuple):
@@ -18,14 +20,16 @@ class AnalisadorSemantico:
                 tipo_direita = self.inferir_tipo(expressao[3])
 
                 if tipo_esquerda != tipo_direita:
-                    raise Exception(f"Erro semântico: operação entre tipos diferentes '{tipo_esquerda}' e '{tipo_direita}'")
+                    self.tabela.errors.append(f"Erro semântico: operação entre tipos diferentes '{tipo_esquerda}' e '{tipo_direita}'")
+                    # raise Exception(f"Erro semântico: operação entre tipos diferentes '{tipo_esquerda}' e '{tipo_direita}'")
                 return tipo_esquerda
 
             elif expressao[0] == 'vetor_acesso':
                 nome = expressao[1]
                 simbolo = self.tabela.obter_simbolo(nome)
                 if simbolo['categoria'] != 'vetor':
-                    raise Exception(f"Erro semântico: '{nome}' não é um vetor")
+                    self.tabela.errors.append(f"Erro semântico: '{nome}' não é um vetor")
+                    # raise Exception(f"Erro semântico: '{nome}' não é um vetor")
                 return simbolo['tipo']
 
             elif expressao[0] == 'relacional':
@@ -43,13 +47,16 @@ class AnalisadorSemantico:
                     simbolo = self.tabela.obter_simbolo(expressao)
                     return simbolo['tipo']
 
-        raise Exception(f"Erro semântico: expressão desconhecida '{expressao}'")
+        self.tabela.errors.append(f"Erro semântico: expressão desconhecida '{expressao}'")
+        # raise Exception(f"Erro semântico: expressão desconhecida '{expressao}'")
     def verificar_acesso_vetor(self, nome, indice_expr):
         simbolo = self.tabela.obter_simbolo(nome)
         if simbolo['categoria'] != 'vetor':
-            raise Exception(f"Erro semântico: '{nome}' não é um vetor")
+            self.tabela.errors.append(f"Erro semântico: '{nome}' não é um vetor")
+            # raise Exception(f"Erro semântico: '{nome}' não é um vetor")
 
         if isinstance(indice_expr, int):
             if not (0 <= indice_expr < simbolo['tamanho']):
-                raise Exception(f"Erro semântico: índice {indice_expr} fora dos limites de '{nome}'")
+                self.tabela.errors.append(f"Erro semântico: índice {indice_expr} fora dos limites de '{nome}'")
+                # raise Exception(f"Erro semântico: índice {indice_expr} fora dos limites de '{nome}'")
         # Caso o índice seja uma variável, ignoramos por enquanto

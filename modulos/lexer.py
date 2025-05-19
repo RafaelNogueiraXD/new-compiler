@@ -52,6 +52,7 @@ class Lexer:
     t_DIFERENTE = r'!='
     t_MENOR_IGUAL = r'<='
     t_MAIOR_IGUAL = r'>='
+    
 
     def t_FLUTUANTE(self, t):
         r'\d+\.\d+'

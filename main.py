@@ -2,6 +2,7 @@ from modulos.parser import Parser
 from pprint import pprint
 import json
 
+import sys
 
 if __name__ == "__main__":
     # codigo = """
@@ -24,19 +25,15 @@ if __name__ == "__main__":
     # """
 
     codigo = """
-    inteiro x = 10;
-    inteiro x = 5;  
-    flutuante y = 3.14;
-    x = y;         
-    inteiro vetor[5];
-    vetor[10] = 20; 
+    funcao teste():{
+        flutuante recebe = 10;
+        flutuante recebe2[10];
+        imprime("ola mundo"); #comentario
+    }
     """
-    try:
-        parser = Parser()
-        resultado = parser.parse(codigo)
-        with open('ast_output.json', 'w') as f:
-            json.dump(resultado, f, indent=2)
-        pprint(resultado, sort_dicts=False)
+    parser = Parser()
+    resultado = parser.parse(codigo)
+    with open('ast_output.json', 'w') as f:
+        json.dump(resultado, f, indent=2)
+    pprint(resultado, sort_dicts=False)
         
-    except Exception as e:
-        print("erro na semântica")
