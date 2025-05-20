@@ -5,7 +5,7 @@ class TabelaDeSimbolos:
         self.escopos = [{}]
     
     def entra_escopo(self):
-        self.escopos.append()
+        self.escopos.append({})
     
     def sai_escopo(self):
         self.escopos.pop()
@@ -20,6 +20,7 @@ class TabelaDeSimbolos:
             # self.simbolos[nome] = {'tipo': tipo, 'categoria': 'variavel'}
 
     def buscar(self, nome):
+        print("DEBUG buscar:", repr(nome))
         for escopo in reversed(self.escopos):
             if nome in escopo:
                 return escopo[nome]
@@ -47,3 +48,8 @@ class TabelaDeSimbolos:
             tamanho = str(info.get('tamanho', '')) if 'tamanho' in info else ''
             print(f"{name:<15} {tipo:<10} {categoria:<15} {tamanho:<10}")
         print("=" * 55 + "\n")
+    def print_tabela(self):
+        print("\n=== Tabela de Símbolos ===")
+        for i, escopo in enumerate(self.escopos):
+            print(f"Escopo {i}:", escopo)
+        print("==========================\n")

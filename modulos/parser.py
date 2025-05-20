@@ -29,6 +29,7 @@ class Parser:
                     | tipo IDENTIFICADOR ABRE_COLCHETE NUMERO FECHA_COLCHETE PONTO_E_VIRGULA
                     | comando'''
         if len(p) == 6 and p[2] != '[':
+            
             self.analisador_semantico.tabela.declarar_variavel(p[2], p[1])
             p[0] = ('declaracao_var', p[1], p[2], p[4])
         elif len(p) == 7:
@@ -74,7 +75,9 @@ class Parser:
         elif p[1] == 'imprime':
             p[0] = ('imprime', p[3])
         elif p[1] == 'funcao':
+            self.analisador_semantico.tabela.entra_escopo()
             p[0] = ('funcao', p[2], p[7])
+            self.analisador_semantico.tabela.sai_escopo()
         elif p[1] == 'enquanto':
             p[0] = ('enquanto', p[3], p[6])
         elif p[1] == 'se':
