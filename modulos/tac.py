@@ -42,6 +42,40 @@ class GeradorTAC:
             _, expr = nodo
             temp = self.gerar_literal(expr)
             self.codigo.append(f"print {temp}")
+        elif tipo == 'se':
+            _, condicao, bloco = nodo
+            cond = self.gerar(condicao)
+            label_fim = self.novo_label()
+            self.codigo.append(f"if_false {cond} goto {label_fim}")
+            for instr in bloco:
+                self.gerar(instr)
+            self.codigo.append(f"{label_fim}:")
+        elif tipo == 'se_senao':
+            _, condicao, bloco_if, bloco_else = nodo
+            cond = self.gerar(condicao)
+            label_else = self.novo_label()
+            label_fim = self.novo_label()
+
+            self.codigo.append(f"if_false {cond} goto {label_else}")
+            for instr in bloco_if:
+                self.gerar(instr)
+            self.codigo.append(f"goto {label_fim}")
+            self.codigo.append(f"{label_else}:")
+            for instr in bloco_else:
+                self.gerar(instr)
+            self.codigo.append(f"{label_fim}:")
+        elif tipo == 'enquanto':
+            _, condicao, bloco = nodo
+            label_inicio = self.novo_label()
+            label_fim = self.novo_label()
+
+            self.codigo.append(f"{label_inicio}:")
+            cond = self.gerar(condicao)
+            self.codigo.append(f"if_false {cond} goto {label_fim}")
+            for instr in bloco:
+                self.gerar(instr)
+            self.codigo.append(f"goto {label_inicio}")
+            self.codigo.append(f"{label_fim}:")
 
         else:
             raise Exception(f"TAC: nó não suportado: {nodo}")
@@ -69,3 +103,30 @@ if __name__ == "__main__":
     gen = GeradorTAC()
     gen.gerar(ast)
     gen.imprimir()
+    
+    print("Teste de IF: ")
+    
+    teste = ('programa', [
+        ('funcao', 'teste', [
+            ('se', ('relacional', '>', 'x', 0), [
+                ('imprime', 'x')
+            ])
+        ])
+    ])
+    teste_if = GeradorTAC()
+    teste_if.gerar(teste)
+    teste_if.imprimir()
+    
+    print("Teste de WHILE: ")
+
+    testeWhile1 = ('programa', [
+        ('funcao', 'teste', [
+            ('enquanto', ('relacional', '>', 'x', 0), [
+                ('imprime', 'x'),
+                ('atribuicao', 'x', ('binop', '-', 'x', 1))
+            ])
+        ])
+    ])
+    testeWhile = GeradorTAC()
+    testeWhile.gerar(testeWhile1)
+    testeWhile.imprimir()
