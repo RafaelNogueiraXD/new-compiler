@@ -10,7 +10,7 @@ class Lexer:
         'DOIS_PONTOS', 'VIRGULA', 'SE', 'SE_NAO', 'ENQUANTO', 'PARA',
         'RETORNA', 'IMPRIME', 'FUNCAO', 'TENTA', 'PEGA', 'INTEIRO', 'FLUTUANTE_TIPO', 'TEXTO_TIPO',
         'MENOR', 'MAIOR', 'IGUAL', 'DIFERENTE', 'MENOR_IGUAL', 'MAIOR_IGUAL',
-        'ABRE_COLCHETE', 'FECHA_COLCHETE',
+        'ABRE_COLCHETE', 'FECHA_COLCHETE','CORTE'
         
     ]
 
@@ -27,7 +27,8 @@ class Lexer:
         'pega': 'PEGA',
         'inteiro': 'INTEIRO',
         'flutuante': 'FLUTUANTE_TIPO',
-        'texto': 'TEXTO_TIPO'
+        'texto': 'TEXTO_TIPO',
+        'corte': 'CORTE'
     }
     t_ABRE_COLCHETE = r'\['
     t_FECHA_COLCHETE = r'\]'

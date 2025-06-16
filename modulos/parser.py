@@ -66,8 +66,10 @@ class Parser:
                 | FUNCAO IDENTIFICADOR ABRE_PARENTESE FECHA_PARENTESE DOIS_PONTOS ABRE_CHAVE declaracoes FECHA_CHAVE
                 | ENQUANTO ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE
                 | SE ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE
-                | SE ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE SE_NAO ABRE_CHAVE declaracoes FECHA_CHAVE'''
-
+                | SE ABRE_PARENTESE expressao FECHA_PARENTESE ABRE_CHAVE declaracoes FECHA_CHAVE SE_NAO ABRE_CHAVE declaracoes FECHA_CHAVE
+                | RETORNA expressao PONTO_E_VIRGULA
+                | CORTE PONTO_E_VIRGULA'''
+                
         if len(p) == 8 and p[2] == '[':
             # Atribuição em vetor
             self.analisador_semantico.verificar_atribuicao(p[1], p[3])
@@ -85,6 +87,10 @@ class Parser:
                 p[0] = ('se', p[3], p[6])
             else:
                 p[0] = ('se_senao', p[3], p[6], p[10])
+        elif p[1] == 'retorna':
+            p[0] = ('retorna', p[2])
+        elif p[1] == 'corte':
+            p[0] = ('corte',)
         else:
             # Caso IDENTIFICADOR = expressao;
             self.analisador_semantico.verificar_atribuicao(p[1], p[3])
@@ -118,6 +124,7 @@ class Parser:
                     | expressao DIFERENTE expressao'''
         p[0] = ('relacional', p[2], p[1], p[3])
 
+
         
     def p_expressao_binaria(self, p):
         '''expressao : expressao SOMA expressao
@@ -136,3 +143,4 @@ class Parser:
         '''expressao : IDENTIFICADOR ABRE_COLCHETE expressao FECHA_COLCHETE'''
         p[0] = ('vetor_acesso', p[1], p[3])
         p[0] = ('vetor_acesso', p[1], p[3])
+        

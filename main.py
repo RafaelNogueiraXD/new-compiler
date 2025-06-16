@@ -30,6 +30,7 @@ if __name__ == "__main__":
         flutuante recebe = 10;
         flutuante recebe2[10];
         imprime("ola mundo"); #comentario
+        # retorna 5;
     }
     """
     parser = Parser()

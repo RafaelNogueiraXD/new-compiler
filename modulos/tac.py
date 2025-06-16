@@ -42,15 +42,22 @@ class GeradorTAC:
             _, expr = nodo
             temp = self.gerar_literal(expr)
             self.codigo.append(f"print {temp}")
-        elif tipo == 'se':
+        elif kind == 'retorna':
+            _, expr = nodo
+            temp = self.gerar(expr)
+            self.codigo.append(f"return {temp}")
+      
+            
+            
+        elif kind == 'se':
             _, condicao, bloco = nodo
             cond = self.gerar(condicao)
             label_fim = self.novo_label()
-            self.codigo.append(f"if_false {cond} goto {label_fim}")
+            self.codigo.append(f"if_false {cond} goto {label_fim}") 
             for instr in bloco:
                 self.gerar(instr)
             self.codigo.append(f"{label_fim}:")
-        elif tipo == 'se_senao':
+        elif kind == 'se_senao':
             _, condicao, bloco_if, bloco_else = nodo
             cond = self.gerar(condicao)
             label_else = self.novo_label()
@@ -64,7 +71,7 @@ class GeradorTAC:
             for instr in bloco_else:
                 self.gerar(instr)
             self.codigo.append(f"{label_fim}:")
-        elif tipo == 'enquanto':
+        elif kind == 'enquanto':
             _, condicao, bloco = nodo
             label_inicio = self.novo_label()
             label_fim = self.novo_label()
@@ -76,16 +83,39 @@ class GeradorTAC:
                 self.gerar(instr)
             self.codigo.append(f"goto {label_inicio}")
             self.codigo.append(f"{label_fim}:")
-
+        elif kind == 'relacional':
+            _, op, left, right = nodo
+            temp = self.novo_temp()
+            left_temp = self.gerar_literal(left)
+            right_temp = self.gerar_literal(right)
+            self.codigo.append(f"{temp} = {left_temp} {op} {right_temp}")
+            return temp
+            
+        elif kind == 'binop':
+            _, op, left, right = nodo
+            temp = self.novo_temp()
+            left_temp = self.gerar_literal(left)
+            right_temp = self.gerar_literal(right)
+            self.codigo.append(f"{temp} = {left_temp} {op} {right_temp}")
+            return temp
+            
+        elif kind == 'atribuicao':
+            _, var, expr = nodo
+            expr_temp = self.gerar(expr)
+            self.codigo.append(f"{var} = {expr_temp}")
         else:
             raise Exception(f"TAC: nó não suportado: {nodo}")
 
     def gerar_literal(self, lit):
-        # Se for número
+       
         if isinstance(lit, (int, float)):
             return str(lit)
-        # Se for string
-        return f"\"{lit}\""
+       
+        elif isinstance(lit, str):
+            return f'"{lit}"'
+       
+        else:
+            return lit
 
     def imprimir(self):
         for linha in self.codigo:
