@@ -6,31 +6,17 @@ import sys
 
 
 if __name__ == "__main__":
-    # codigo = """
-    # funcao main():{
-    #     inteiro variante = 10;
-    #     imprime("hello world");
-    #     enquanto (variante < 10){
-    #         imprime("ola mundo");
-    #         variante = variante - 1;
-    #     } 
-    #     se (variante > 0) {
-    #         imprime("positivo");
-    #     } se_nao {
-    #         imprime("negativo ou zero");
-    #     }
-    #     inteiro numeros[5];
-    #     numeros[0] = 10;
-    #     imprime(numeros[0]);
-    # }
-    # """
 
     codigo = """
     funcao teste():{
-        flutuante recebe = 10;
+        flutuante recebe = 10.0;
+        recebe = 10.0;
+        se(recebe < 10){
+            imprime("ola");
+        }
         flutuante recebe2[10];
         imprime("ola mundo"); #comentario
-        # retorna 5;
+        retorna 5;
     }
     """
     parser = Parser()

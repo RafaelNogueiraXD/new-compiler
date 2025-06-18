@@ -31,13 +31,12 @@ class TabelaDeSimbolos:
             self.errors.append(f"Erro semantico: variavel '{nome}' ja declarada")
             # raise Exception(f"Erro semântico: vetor '{nome}' já declarado")
         self.simbolos[nome] = {'tipo': tipo, 'categoria': 'vetor', 'tamanho': tamanho}
-
     def obter_simbolo(self, nome):
-        if nome not in self.simbolos:
-            self.errors.append(f"Erro semantico: variavel '{nome}' nao foi declarado")
-            # raise Exception(f"Erro semântico: '{nome}' não foi declarado")
-        return self.simbolos[nome]
-    
+        simbolo = self.buscar(nome)
+        if simbolo is None:
+            self.errors.append(f"Erro semantico: variavel '{nome}' nao foi declarada")
+            return None
+        return simbolo
     def print_symbol_table(self):
         print("\n=== TABELA DE SÍMBOLOS ===")
         print(f"{'Nome':<15} {'Tipo':<10} {'Categoria':<15} {'Tamanho':<10}")

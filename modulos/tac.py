@@ -15,6 +15,8 @@ class GeradorTAC:
         return nome
 
     def gerar(self, nodo):
+        if isinstance(nodo, (int, float, str)):
+            return self.gerar_literal(nodo)
         kind = nodo[0]
 
         if kind == 'programa':
@@ -42,9 +44,14 @@ class GeradorTAC:
             _, expr = nodo
             temp = self.gerar_literal(expr)
             self.codigo.append(f"print {temp}")
+            
+            
         elif kind == 'retorna':
             _, expr = nodo
-            temp = self.gerar(expr)
+            if isinstance(expr, tuple):
+                temp = self.gerar(expr)
+            else:
+                temp = self.gerar_literal(expr)
             self.codigo.append(f"return {temp}")
       
             

@@ -79,7 +79,7 @@ class Parser:
         elif p[1] == 'funcao':
             self.analisador_semantico.tabela.entra_escopo()
             p[0] = ('funcao', p[2], p[7])
-            self.analisador_semantico.tabela.sai_escopo()
+            # self.analisador_semantico.tabela.sai_escopo()
         elif p[1] == 'enquanto':
             p[0] = ('enquanto', p[3], p[6])
         elif p[1] == 'se':
@@ -109,6 +109,8 @@ class Parser:
             for erro in self.analisador_semantico.tabela.errors:
                 print(f"[ERRO SEMÂNTICO] {erro}")
         self.analisador_semantico.tabela.print_symbol_table()
+        
+        self.analisador_semantico.tabela.sai_escopo()
         return resultado
         
     def p_bloco(self, p):
