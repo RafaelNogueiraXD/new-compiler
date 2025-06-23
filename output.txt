@@ -22,7 +22,9 @@ DEBUG buscar: 'x'
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
   y            inteiro    variavel   
+Escopo 1:
   x            inteiro    variavel   
+Escopo 2:
 ========================================
 
 ('programa',
@@ -68,6 +70,7 @@ funcao main():{
 
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
+Escopo 1:
 ========================================
 
 ('programa', [('funcao', 'main', [('imprime', '"ola mundo"')])])
@@ -103,11 +106,13 @@ funcao main(): {
 
 DEBUG buscar: 'numero1'
 DEBUG buscar: 'numero2'
-[ERRO SEMÂNTICO] Erro semantico: variavel 'numero1' ja declarada
-[ERRO SEMÂNTICO] Erro semantico: variavel 'numero2' ja declarada
 
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
+  numero1      inteiro    variavel   
+  numero2      inteiro    variavel   
+Escopo 1:
+Escopo 2:
   numero1      inteiro    variavel   
   numero2      inteiro    variavel   
 ========================================
@@ -159,6 +164,7 @@ DEBUG buscar: 'x'
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
   x            inteiro    variavel   
+Escopo 1:
 ========================================
 
 ('programa',
@@ -207,6 +213,7 @@ DEBUG buscar: 'x'
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
   x            inteiro    variavel   
+Escopo 1:
 ========================================
 
 ('programa',
@@ -265,6 +272,7 @@ funcao main(): {
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
   y            inteiro    variavel   
+Escopo 1:
 ========================================
 
 ('programa',
@@ -317,11 +325,11 @@ funcao main(): {
 
 DEBUG buscar: 'numeros'
 DEBUG buscar: 'numeros'
-[ERRO SEMÂNTICO] Nó desconhecido na análise semântica: vetor_atribuicao
 
 === TABELA DE SÍMBOLOS POR ESCOPO ===
 Escopo 0:
   numeros      inteiro    vetor      5
+Escopo 1:
 ========================================
 
 ('programa',
@@ -369,6 +377,7 @@ Escopo 0:
   a            inteiro    variavel   
   b            inteiro    variavel   
   resultado    inteiro    variavel   
+Escopo 1:
 ========================================
 
 ('programa',

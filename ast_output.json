@@ -2,39 +2,35 @@
   "programa",
   [
     [
-      "declaracao_var",
-      "inteiro",
-      "numero1",
-      10
-    ],
-    [
-      "declaracao_var",
-      "inteiro",
-      "numero2",
-      24
-    ],
-    [
-      "funcao",
-      "soma",
-      [
-        [
-          "retorna",
-          [
-            "binop",
-            "+",
-            "numero1",
-            "numero2"
-          ]
-        ]
-      ]
-    ],
-    [
       "funcao",
       "main",
       [
         [
-          "chamada_funcao",
-          "soma"
+          "declaracao_var",
+          "inteiro",
+          "a",
+          2
+        ],
+        [
+          "declaracao_var",
+          "inteiro",
+          "b",
+          3
+        ],
+        [
+          "declaracao_var",
+          "inteiro",
+          "resultado",
+          [
+            "binop",
+            "+",
+            "a",
+            "b"
+          ]
+        ],
+        [
+          "imprime",
+          "resultado"
         ]
       ]
     ]

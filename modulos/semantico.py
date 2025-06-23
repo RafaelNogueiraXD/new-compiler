@@ -35,6 +35,10 @@ class AnalisadorSemantico:
             _, nome, expr = nodo
             self.verificar_atribuicao(nome, expr)
 
+        elif tipo == 'vetor_atribuicao':
+            _ = nodo
+            # self.verificar_atribuicao(nome, expr)
+
         elif tipo == 'imprime':
             _, expr = nodo
             self.inferir_tipo(expr)
