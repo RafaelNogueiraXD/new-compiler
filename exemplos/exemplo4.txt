@@ -1,0 +1,5 @@
+funcao main(): {
+    inteiro numeros[5];
+    numeros[0] = 42;
+    imprime(numeros[0]);
+}

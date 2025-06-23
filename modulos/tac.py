@@ -40,6 +40,12 @@ class GeradorTAC:
             _, nome, tamanho = nodo
             self.codigo.append(f"{nome} = alloc_array {tamanho}")
 
+        elif kind == 'vetor_atribuicao':
+            _, nome, indice, valor = nodo
+            idx_temp = self.gerar_literal(indice)
+            val_temp = self.gerar_literal(valor)
+            self.codigo.append(f"{nome}[{idx_temp}] = {val_temp}")
+
         elif kind == 'imprime':
             _, expr = nodo
             temp = self.gerar_literal(expr)
@@ -78,6 +84,7 @@ class GeradorTAC:
             for instr in bloco_else:
                 self.gerar(instr)
             self.codigo.append(f"{label_fim}:")
+            
         elif kind == 'enquanto':
             _, condicao, bloco = nodo
             label_inicio = self.novo_label()
@@ -90,6 +97,13 @@ class GeradorTAC:
                 self.gerar(instr)
             self.codigo.append(f"goto {label_inicio}")
             self.codigo.append(f"{label_fim}:")
+
+
+        elif kind == 'chamada_funcao':
+            _, nome_funcao = nodo
+            self.codigo.append(f"call {nome_funcao}")
+
+        
         elif kind == 'relacional':
             _, op, left, right = nodo
             temp = self.novo_temp()
@@ -114,13 +128,12 @@ class GeradorTAC:
             raise Exception(f"TAC: nó não suportado: {nodo}")
 
     def gerar_literal(self, lit):
-       
         if isinstance(lit, (int, float)):
             return str(lit)
-       
         elif isinstance(lit, str):
+            if lit.startswith('"') and lit.endswith('"'):
+                return lit
             return f'"{lit}"'
-       
         else:
             return lit
 

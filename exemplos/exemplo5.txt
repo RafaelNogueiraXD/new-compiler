@@ -1,0 +1,6 @@
+funcao main(): {
+    inteiro a = 2;
+    inteiro b = 3;
+    inteiro resultado = a + b;
+    imprime(resultado);
+}

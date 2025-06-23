@@ -1,0 +1,10 @@
+funcao last():{
+    inteiro y = 10;
+}
+funcao main(): {
+    inteiro x = 5;
+    y = 5;
+    retorna x;
+}
+
+

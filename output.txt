@@ -1,0 +1,440 @@
+
+>> Código recebido de 'exemplos/exemplo-escopo.txt':
+
+funcao last():{
+    inteiro y = 10;
+}
+funcao main(): {
+    inteiro x = 5;
+    y = 5;
+    retorna x;
+}
+
+
+
+
+>> Analisando...
+
+DEBUG buscar: 'y'
+DEBUG buscar: 'y'
+DEBUG buscar: 'x'
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  y            inteiro    variavel   
+  x            inteiro    variavel   
+========================================
+
+('programa',
+ [('funcao', 'last', [('declaracao_var', 'inteiro', 'y', 10)]),
+  ('funcao',
+   'main',
+   [('declaracao_var', 'inteiro', 'x', 5),
+    ('atribuicao', 'y', 5),
+    ('retorna', 'x')])])
+
+
+>> Gerando código intermediário (TAC):
+
+func last:
+y = 10    # tipo inteiro
+endfunc last
+func main:
+x = 5    # tipo inteiro
+y = 5
+return "x"
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+last:
+MOV y, 10    # tipo inteiro
+
+main:
+MOV x, 5    # tipo inteiro
+MOV y, 5
+RET "x"
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo-imprimir.txt':
+
+funcao main():{
+    imprime("ola mundo");
+}
+
+>> Analisando...
+
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+========================================
+
+('programa', [('funcao', 'main', [('imprime', '"ola mundo"')])])
+
+
+>> Gerando código intermediário (TAC):
+
+func main:
+print "ola mundo"
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+main:
+PRINT "ola mundo"
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo-multi.txt':
+
+
+inteiro numero1 = 10;
+inteiro numero2 = 24;
+funcao soma():{
+    retorna numero1 + numero2;
+}
+
+funcao main(): {
+    soma();
+}
+
+>> Analisando...
+
+DEBUG buscar: 'numero1'
+DEBUG buscar: 'numero2'
+[ERRO SEMÂNTICO] Erro semantico: variavel 'numero1' ja declarada
+[ERRO SEMÂNTICO] Erro semantico: variavel 'numero2' ja declarada
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  numero1      inteiro    variavel   
+  numero2      inteiro    variavel   
+========================================
+
+('programa',
+ [('declaracao_var', 'inteiro', 'numero1', 10),
+  ('declaracao_var', 'inteiro', 'numero2', 24),
+  ('funcao', 'soma', [('retorna', ('binop', '+', 'numero1', 'numero2'))]),
+  ('funcao', 'main', [('chamada_funcao', 'soma')])])
+
+
+>> Gerando código intermediário (TAC):
+
+numero1 = 10    # tipo inteiro
+numero2 = 24    # tipo inteiro
+func soma:
+t0 = "numero1" + "numero2"
+return t0
+endfunc soma
+func main:
+call soma
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+MOV numero1, 10    # tipo inteiro
+MOV numero2, 24    # tipo inteiro
+soma:
+MOV t0, "numero1" + "numero2"
+RET t0
+
+main:
+CALL soma
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo1.txt':
+
+funcao main(): {
+    inteiro x = 5;
+    imprime("Teste simples");
+    retorna x;
+}
+
+>> Analisando...
+
+DEBUG buscar: 'x'
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  x            inteiro    variavel   
+========================================
+
+('programa',
+ [('funcao',
+   'main',
+   [('declaracao_var', 'inteiro', 'x', 5),
+    ('imprime', '"Teste simples"'),
+    ('retorna', 'x')])])
+
+
+>> Gerando código intermediário (TAC):
+
+func main:
+x = 5    # tipo inteiro
+print "Teste simples"
+return "x"
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+main:
+MOV x, 5    # tipo inteiro
+PRINT "Teste simples"
+RET "x"
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo2.txt':
+
+funcao main(): {
+    inteiro x = 10;
+    enquanto (x > 0) {
+        imprime(x);
+        x = x - 1;
+    }
+}
+
+>> Analisando...
+
+DEBUG buscar: 'x'
+DEBUG buscar: 'x'
+DEBUG buscar: 'x'
+DEBUG buscar: 'x'
+DEBUG buscar: 'x'
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  x            inteiro    variavel   
+========================================
+
+('programa',
+ [('funcao',
+   'main',
+   [('declaracao_var', 'inteiro', 'x', 10),
+    ('enquanto',
+     ('relacional', '>', 'x', 0),
+     [('imprime', 'x'), ('atribuicao', 'x', ('binop', '-', 'x', 1))])])])
+
+
+>> Gerando código intermediário (TAC):
+
+func main:
+x = 10    # tipo inteiro
+L0:
+t0 = "x" > 0
+if_false t0 goto L1
+print "x"
+t1 = "x" - 1
+x = t1
+goto L0
+L1:
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+main:
+MOV x, 10    # tipo inteiro
+L0:
+MOV t0, "x" > 0
+CMP t0, 0
+JE L1
+PRINT "x"
+MOV t1, "x" - 1
+MOV x, t1
+JMP L0
+L1:
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo3.txt':
+
+funcao main(): {
+    inteiro y = 3;
+    se (y > 0) {
+        imprime("positivo");
+    } se_nao {
+        imprime("negativo ou zero");
+    }
+}
+
+>> Analisando...
+
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  y            inteiro    variavel   
+========================================
+
+('programa',
+ [('funcao',
+   'main',
+   [('declaracao_var', 'inteiro', 'y', 3),
+    ('se_senao',
+     ('relacional', '>', 'y', 0),
+     [('imprime', '"positivo"')],
+     [('imprime', '"negativo ou zero"')])])])
+
+
+>> Gerando código intermediário (TAC):
+
+func main:
+y = 3    # tipo inteiro
+t0 = "y" > 0
+if_false t0 goto L0
+print "positivo"
+goto L1
+L0:
+print "negativo ou zero"
+L1:
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+main:
+MOV y, 3    # tipo inteiro
+MOV t0, "y" > 0
+CMP t0, 0
+JE L0
+PRINT "positivo"
+JMP L1
+L0:
+PRINT "negativo ou zero"
+L1:
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo4.txt':
+
+funcao main(): {
+    inteiro numeros[5];
+    numeros[0] = 42;
+    imprime(numeros[0]);
+}
+
+>> Analisando...
+
+DEBUG buscar: 'numeros'
+DEBUG buscar: 'numeros'
+[ERRO SEMÂNTICO] Nó desconhecido na análise semântica: vetor_atribuicao
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  numeros      inteiro    vetor      5
+========================================
+
+('programa',
+ [('funcao',
+   'main',
+   [('vetor_declaracao', 'numeros', 5),
+    ('vetor_atribuicao', 'numeros', 0, 42),
+    ('imprime', ('vetor_acesso', 'numeros', 0))])])
+
+
+>> Gerando código intermediário (TAC):
+
+func main:
+numeros = alloc_array 5
+numeros[0] = 42
+print ('vetor_acesso', 'numeros', 0)
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+main:
+MOV numeros, alloc_array 5
+MOV numeros[0], 42
+PRINT ('vetor_acesso', 'numeros', 0)
+
+========================
+
+
+>> Código recebido de 'exemplos/exemplo5.txt':
+
+funcao main(): {
+    inteiro a = 2;
+    inteiro b = 3;
+    inteiro resultado = a + b;
+    imprime(resultado);
+}
+
+>> Analisando...
+
+DEBUG buscar: 'a'
+DEBUG buscar: 'b'
+DEBUG buscar: 'resultado'
+
+=== TABELA DE SÍMBOLOS POR ESCOPO ===
+Escopo 0:
+  a            inteiro    variavel   
+  b            inteiro    variavel   
+  resultado    inteiro    variavel   
+========================================
+
+('programa',
+ [('funcao',
+   'main',
+   [('declaracao_var', 'inteiro', 'a', 2),
+    ('declaracao_var', 'inteiro', 'b', 3),
+    ('declaracao_var', 'inteiro', 'resultado', ('binop', '+', 'a', 'b')),
+    ('imprime', 'resultado')])])
+
+
+>> Gerando código intermediário (TAC):
+
+func main:
+a = 2    # tipo inteiro
+b = 3    # tipo inteiro
+resultado = ('binop', '+', 'a', 'b')    # tipo inteiro
+print "resultado"
+endfunc main
+
+=== CÓDIGO ASSEMBLY ===
+main:
+MOV a, 2    # tipo inteiro
+MOV b, 3    # tipo inteiro
+MOV resultado, ('binop', '+', 'a', 'b')    # tipo inteiro
+PRINT "resultado"
+
+========================
+
+
+==================================================
+Executando: exemplo-escopo.txt
+==================================================
+
+
+==================================================
+Executando: exemplo-imprimir.txt
+==================================================
+
+
+==================================================
+Executando: exemplo-multi.txt
+==================================================
+
+
+==================================================
+Executando: exemplo1.txt
+==================================================
+
+
+==================================================
+Executando: exemplo2.txt
+==================================================
+
+
+==================================================
+Executando: exemplo3.txt
+==================================================
+
+
+==================================================
+Executando: exemplo4.txt
+==================================================
+
+
+==================================================
+Executando: exemplo5.txt
+==================================================
+

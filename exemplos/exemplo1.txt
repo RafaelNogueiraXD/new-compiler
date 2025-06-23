@@ -1,0 +1,5 @@
+funcao main(): {
+    inteiro x = 5;
+    imprime("Teste simples");
+    retorna x;
+}

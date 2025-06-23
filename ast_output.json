@@ -2,47 +2,39 @@
   "programa",
   [
     [
+      "declaracao_var",
+      "inteiro",
+      "numero1",
+      10
+    ],
+    [
+      "declaracao_var",
+      "inteiro",
+      "numero2",
+      24
+    ],
+    [
       "funcao",
-      "teste",
+      "soma",
       [
         [
-          "declaracao_var",
-          "flutuante",
-          "recebe",
-          10.0
-        ],
-        [
-          "atribuicao",
-          "recebe",
-          10.0
-        ],
-        [
-          "se",
-          [
-            "relacional",
-            "<",
-            "recebe",
-            10
-          ],
-          [
-            [
-              "imprime",
-              "ola"
-            ]
-          ]
-        ],
-        [
-          "vetor_declaracao",
-          "recebe2",
-          10
-        ],
-        [
-          "imprime",
-          "ola mundo"
-        ],
-        [
           "retorna",
-          5
+          [
+            "binop",
+            "+",
+            "numero1",
+            "numero2"
+          ]
+        ]
+      ]
+    ],
+    [
+      "funcao",
+      "main",
+      [
+        [
+          "chamada_funcao",
+          "soma"
         ]
       ]
     ]

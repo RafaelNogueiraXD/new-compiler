@@ -2,7 +2,65 @@ from modulos.tabelaSimbolos import TabelaDeSimbolos
 class AnalisadorSemantico:
     def __init__(self):
         self.tabela = TabelaDeSimbolos()
-       
+    def analisar(self, nodo):
+        if isinstance(nodo, list):
+            for n in nodo:
+                self.analisar(n)
+            return
+
+        tipo = nodo[0]
+
+        if tipo == 'programa':
+            _, corpo = nodo
+            self.analisar(corpo)
+
+        elif tipo == 'funcao':
+            _, nome, corpo = nodo
+            self.tabela.entra_escopo()
+            self.analisar(corpo)
+            self.tabela.sai_escopo()
+
+        elif tipo == 'declaracao_var':
+            _, tipo_var, nome, valor = nodo
+            self.tabela.declarar_variavel(nome, tipo_var)
+            if valor is not None:
+                self.inferir_tipo(valor)
+
+        elif tipo == 'vetor_declaracao':
+            _, nome, tamanho = nodo
+            self.tabela.declarar_vetor(nome, 'flutuante', tamanho)  # ou tipo específico
+        elif tipo == 'chamada_funcao':
+            _, nome_funcao = nodo
+        elif tipo == 'atribuicao':
+            _, nome, expr = nodo
+            self.verificar_atribuicao(nome, expr)
+
+        elif tipo == 'imprime':
+            _, expr = nodo
+            self.inferir_tipo(expr)
+
+        elif tipo == 'retorna':
+            _, expr = nodo
+            self.inferir_tipo(expr)
+
+        elif tipo == 'se':
+            _, condicao, bloco = nodo
+            self.inferir_tipo(condicao)
+            self.analisar(bloco)
+
+        elif tipo == 'se_senao':
+            _, condicao, bloco_if, bloco_else = nodo
+            self.inferir_tipo(condicao)
+            self.analisar(bloco_if)
+            self.analisar(bloco_else)
+
+        elif tipo == 'enquanto':
+            _, condicao, bloco = nodo
+            self.inferir_tipo(condicao)
+            self.analisar(bloco)
+
+        else:
+            self.tabela.errors.append(f"Nó desconhecido na análise semântica: {tipo}")      
 
     def verificar_atribuicao(self, nome, expressao):
         simbolo = self.tabela.obter_simbolo(nome)
@@ -45,6 +103,8 @@ class AnalisadorSemantico:
                     return 'texto'
                 else:
                     simbolo = self.tabela.obter_simbolo(expressao)
+                    if simbolo is None:
+                        return None
                     return simbolo['tipo']
 
         self.tabela.errors.append(f"Erro semântico: expressão desconhecida '{expressao}'")

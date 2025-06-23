@@ -1,0 +1,8 @@
+funcao main(): {
+    inteiro y = 3;
+    se (y > 0) {
+        imprime("positivo");
+    } se_nao {
+        imprime("negativo ou zero");
+    }
+}

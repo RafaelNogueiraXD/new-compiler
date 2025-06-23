@@ -1,0 +1,10 @@
+
+inteiro numero1 = 10;
+inteiro numero2 = 24;
+funcao soma():{
+    retorna numero1 + numero2;
+}
+
+funcao main(): {
+    soma();
+}

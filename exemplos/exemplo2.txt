@@ -1,0 +1,7 @@
+funcao main(): {
+    inteiro x = 10;
+    enquanto (x > 0) {
+        imprime(x);
+        x = x - 1;
+    }
+}

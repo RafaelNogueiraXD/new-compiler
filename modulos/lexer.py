@@ -67,7 +67,7 @@ class Lexer:
 
     def t_TEXTO(self, t):
         r'\".*?\"'
-        t.value = t.value[1:-1]
+        # t.value = t.value[1:-1]
         return t
 
     def t_IDENTIFICADOR(self, t):
